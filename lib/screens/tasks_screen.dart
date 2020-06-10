@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoeyflutter/widgets/task_list.dart';
+import 'package:todoeyflutter/widgets/task_list_widget.dart';
 import 'package:todoeyflutter/screens/add_task_screen.dart';
 import 'package:todoeyflutter/model/task.dart';
 
@@ -107,7 +107,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TasksList(
+              child: TasksListWidget(
                 tasks: taskList,
                 isDoneCallBack: (bool isDone, int index) {
                   setState(() {
