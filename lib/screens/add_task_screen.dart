@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AddTaskScreen extends StatelessWidget {
+  AddTaskScreen({@required this.buttonCallBack});
+  final Function buttonCallBack;
+
   @override
   Widget build(BuildContext context) {
+    String input = '';
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -33,6 +37,14 @@ class AddTaskScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 20.0),
               child: TextField(
+                onChanged: (value) {
+                  input = value;
+                },
+                textInputAction: TextInputAction.go,
+                onSubmitted: (value) {
+                  buttonCallBack(value);
+                  Navigator.pop(context);
+                },
                 textAlign: TextAlign.center,
                 autofocus: true,
                 decoration: InputDecoration(
@@ -54,7 +66,6 @@ class AddTaskScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 20.0),
               child: FlatButton(
-                onPressed: () {},
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Text(
@@ -67,6 +78,12 @@ class AddTaskScreen extends StatelessWidget {
                   ),
                 ),
                 color: Colors.lightBlueAccent,
+                onPressed: () {
+                  if (input != '') {
+                    buttonCallBack(input);
+                    Navigator.pop(context);
+                  }
+                },
               ),
             ),
           ],
