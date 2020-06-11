@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:todoeyflutter/widgets/task_list_widget.dart';
 import 'package:todoeyflutter/screens/add_task_screen.dart';
 import 'package:todoeyflutter/model/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoeyflutter/model/tasks_list.dart';
 
 class TasksScreen extends StatefulWidget {
   @override
@@ -9,18 +11,6 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  List<Task> taskList = [];
-  int incompleteTasks = 0;
-
-  void checkForIncompleteTasks() {
-    incompleteTasks = 0;
-    for (Task task in taskList) {
-      if (task.isDone != true) {
-        incompleteTasks++;
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,16 +25,7 @@ class _TasksScreenState extends State<TasksScreen> {
               child: Container(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(
-                  buttonCallBack: (String name) {
-                    setState(() {
-                      taskList.add(
-                        Task(name: name),
-                      );
-                      incompleteTasks++;
-                    });
-                  },
-                ),
+                child: AddTaskScreen(),
               ),
             ),
           );
@@ -86,7 +67,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 30.0),
                   child: Text(
-                    '$incompleteTasks Tasks',
+                    '${Provider.of<TasksList>(context).incompleteTasks} Tasks',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 18.0,
@@ -107,15 +88,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TasksListWidget(
-                tasks: taskList,
-                isDoneCallBack: (bool isDone, int index) {
-                  setState(() {
-                    taskList[index].toggleDone();
-                    checkForIncompleteTasks();
-                  });
-                },
-              ),
+              child: TasksListWidget(),
             ),
           ),
         ],

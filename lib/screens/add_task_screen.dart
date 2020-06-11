@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:todoeyflutter/model/tasks_list.dart';
+import 'package:todoeyflutter/model/task.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  AddTaskScreen({@required this.buttonCallBack});
-  final Function buttonCallBack;
-
   @override
   Widget build(BuildContext context) {
     String input = '';
@@ -42,7 +42,9 @@ class AddTaskScreen extends StatelessWidget {
                 },
                 textInputAction: TextInputAction.go,
                 onSubmitted: (value) {
-                  buttonCallBack(value);
+                  Provider.of<TasksList>(context, listen: false).add(
+                    Task(name: value),
+                  );
                   Navigator.pop(context);
                 },
                 textAlign: TextAlign.center,
@@ -80,7 +82,11 @@ class AddTaskScreen extends StatelessWidget {
                 color: Colors.lightBlueAccent,
                 onPressed: () {
                   if (input != '') {
-                    buttonCallBack(input);
+                    Provider.of<TasksList>(context, listen: false).add(
+                      Task(name: input),
+                    );
+                    Provider.of<TasksList>(context, listen: false)
+                        .checkForIncompleteTasks();
                     Navigator.pop(context);
                   }
                 },
